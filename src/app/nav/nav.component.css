@@ -1,0 +1,16 @@
+div{
+    background: #372049;
+    height: 80px;
+    margin-bottom: 20px;
+}
+
+ul{
+    float: right;
+    background-color: aquamarine;
+}
+
+img{
+    margin-top: 1%;
+    margin-left: 2%;
+    width: 10%;
+}

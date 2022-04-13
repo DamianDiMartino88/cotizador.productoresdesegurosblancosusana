@@ -1,0 +1,169 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap');
+
+.footer{    
+    height: 450px;
+    padding-top: 80px;
+    width: 100%;
+    background: #372049;
+    float: right;
+    justify-content: space-around;
+    display: inline-flex;
+    flex-wrap: wrap;
+}
+
+.icon_area{
+    justify-content: space-around;
+    display: inline-flex;
+    margin-top: 40px;
+}
+
+.img_area img{
+    width: 25%;
+}
+
+.subFooter1{
+    margin-left: 5%;
+    float: left;
+    width: 30%;
+   
+}
+.subFooter2{
+    float: left;
+    width: 15%;
+   
+}
+.subFooter3{
+    float: left;
+    width: 25%;
+   
+}
+
+img{
+    max-width: 100px;
+}
+i{
+    color: white;
+}
+
+a{
+    font-size: 16px;
+    font-family: 'Poppins',sans-serif;
+    color: white;
+}
+
+
+p{
+    font-size: 16px;
+    font-family: 'Open Sans',sans-serif;
+    margin-right: 20px;
+    color: white;
+}
+
+h4{
+    font-family: 'Poppins',sans-serif;
+    color: white;
+}
+
+ul{
+    list-style-type: none;
+    margin-left: -40px;
+}
+  
+.wrapper{
+    margin-left: 8%;
+    margin-right: 8%;
+    margin-bottom: 2%;
+    width: 84%;
+    text-align: center;
+}
+
+
+.wrapper .cards_wrap{
+    font-family: 'Poppins',sans-serif;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.cards_wrap .card_item{
+    width: 23%;
+    margin-left: 15px;
+    padding: 25px;
+    
+}
+
+.cards_wrap .card_item p{
+    color: black;
+}
+
+.cards_wrap .imgSSN{
+    margin-top: 45px;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    width: 23%;
+    margin-left: 15px;
+    padding: 20px;
+
+}
+
+.imgSSN{
+    width: 40px;
+    height: 40px;
+}
+
+
+.cards_wrap .card_top{
+    width: 100%;
+    height: auto;
+    padding: 10px;
+    padding-bottom: 0;
+    text-align: center;
+
+}
+
+.cards_wrap .card_bottom{
+    
+    text-align: center;
+}
+
+.cards_wrap .card_info{
+    text-align: center;
+}
+
+.cards_wrap .card_bottom .card_catgory{
+    text-align: center;
+}
+
+.cards_wrap .card_bottom .card_info{
+    padding: 15px;
+    margin: 10px 0;
+}
+
+@media (max-width: 1024px){
+    .cards_wrap .card_item{
+        width: 33.3%;
+    }
+
+    .cards_wrap .imgSSN{
+        width: 33.3%;
+    }
+}
+
+@media (max-width: 768px){
+    .cards_wrap .card_item{
+        width: 50%;
+    }
+
+    .cards_wrap .imgSSN{
+        width: 50%;
+    }
+}
+
+@media (max-width: 528px){
+    .cards_wrap .card_item{
+        width: 100%;
+    }
+
+    .cards_wrap .imgSSN{
+        width: 100%;
+    }
+}

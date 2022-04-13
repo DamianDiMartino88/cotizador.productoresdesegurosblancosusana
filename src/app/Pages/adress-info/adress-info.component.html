@@ -1,0 +1,144 @@
+<div class="container" style="background: #907aa5; padding: 25px;">
+
+    <div class="border rounded">
+    <label for="basic-url" class="form-label input-group-text" id="inputGroup-sizing-default" style="font-size: large; color: rgb(100, 100, 100);"><strong>Ubicacion</strong></label>
+    <form [formGroup]="AdressForm">  
+    <div class="container">
+        <div class="row" style="padding-top: 25px;">
+            
+                <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                    <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                    </symbol>
+                </svg>
+                <div class="col-1 col-sm-1"></div>
+                <div class="col-5 col-sm-5">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Provincia</span>
+                        <select class="form-select" aria-label="codigoProvincia"                        
+                        id="codigoProvincia"
+                        formControlName="codigoProvincia"
+                        name="codigoProvincia"
+                        required>
+                            <option selected aria-label="codigoProvincia" value="Seleccione">Seleccione</option>
+                            <option *ngFor="let model of provincesList" value="{{model.codigoProvincia}}">{{model.descripcionProvincia}}</option>
+                          </select>
+                    </div>
+                    <div style="color: rgb(255, 213, 213); text-align: center;" *ngIf="!isProvinceCodeCompleted">
+                        Campo Obligatorio
+                    </div>
+                </div>
+
+                <div class="col-5 col-sm-5">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Ciudad</span>
+                        <select class="form-select" aria-label="codigoCiudad"
+                        id="codigoCiudad"
+                        formControlName="codigoCiudad"
+                        name="codigoCiudad"
+                        [disabled]="modelListReady"
+                        required>
+                            <option selected aria-label="userGenre" value="Seleccione">Seleccione</option>
+                            <option *ngFor="let model of citiesList" value="{{model.codigoLocalidad}}">{{model.descripcionLocalidad}}</option>
+                          </select>
+                    </div>
+                    <div style="color: rgb(255, 213, 213); text-align: center;" *ngIf="!isCityCodeCompleted">
+                        Campo Obligatorio
+                    </div>
+                </div>
+
+                
+                
+        </div>
+
+        <div class="row" style="padding-top: 25px;">
+            <!-- <div class="col-9 col-sm-9">
+                <div class="input-group  mb-3">
+                    <span class="input-group-text">Direccion</span>
+                    <div class="col-6">
+                        <input type="text" aria-label="direccionCalle" class="form-control" placeholder="Calle"
+                        id="direccionCalle"
+                        formControlName="direccionCalle"
+                        name="direccionCalle"
+                        required>
+                    </div>
+                    <div class="col-2">
+                        <input type="text" aria-label="direccionNumero" class="form-control" placeholder="Numero"
+                        id="direccionNumero"
+                        formControlName="direccionNumero"
+                        name="direccionNumero"
+                        required>
+                    </div>
+                    <div class="col-1">
+                        <input type="text" aria-label="direccionPiso" class="form-control" placeholder="Piso"
+                        id="direccionPiso"
+                        formControlName="direccionPiso"
+                        name="direccionPiso"
+                        required>
+                    </div>
+                    <div class="col-1">
+                        <input type="text" aria-label="direccionDepto" class="form-control" placeholder="Dpto"
+                        id="direccionDepto"
+                        formControlName="direccionDepto"
+                        name="direccionDepto"
+                        required>
+                    </div>
+                  </div>
+                  <div style="color: rgb(255, 213, 213); text-align: center;" *ngIf="!isAdressStreetCompleted || !isAdressNumberCompleted">
+                    Campo Obligatorio
+                </div>
+            </div> -->
+            <div class="col-2 col-sm-2"></div>
+            <div class="col-4 col-sm-4">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Codigo Postal</span>
+                    <input type="text" class="form-control" placeholder="0000" aria-label="userLastName" aria-describedby="basic-addon1" placeholder="0000"
+                    id="codigoPostal"
+                    formControlName="codigoPostal"
+                    name="codigoPostal"
+                    required>
+                </div>
+                <div style="color: rgb(255, 213, 213); text-align: center;" *ngIf="!isPostalCodeCompleted">
+                    Campo Obligatorio
+                </div>
+            </div>
+
+            <div class="col-4 col-sm-4">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Celular</span>
+                    <div class="col-4">
+                        <input type="text" aria-label="celularCodArea" class="form-control" placeholder="Cod. Area"
+                        id="celularCodArea"
+                        formControlName="celularCodArea"
+                        name="celularCodArea"
+                        required>
+                    </div>
+                    <div class="col-5">
+                        <input type="text" aria-label="celularNumero" class="form-control" placeholder="Numero"
+                        id="celularNumero"
+                        formControlName="celularNumero"
+                        name="celularNumero"
+                        required>
+                    </div>
+                </div>
+                <div style="color: rgb(255, 213, 213); text-align: center;" *ngIf="!isCelCodeCityCompleted || !isCelNumberCompleted">
+                    Campo Obligatorio
+                </div> 
+            </div>
+        </div>          
+    </div>
+
+    <div class="row  justify-content-between">
+        <div class="col-4 col-sm-4" style="padding-left: 10%; padding-top: 5%;">
+            <button type="button" class="btn btn-danger" (click)="handleBack()" routerLink="../PersonalInfo">Volver</button>
+        </div>
+        <div class="col-3" style="padding: 5%;">
+            <button type="button" class="btn btn-primary" (click)="handleContinue()">Continuar</button>
+            <div class="alert alert-danger" *ngIf="!isFormCompleted" style=" text-align: center; margin-top: 5%;">
+                Complete Todos los Campos
+            </div> 
+        </div>
+    </div>
+    </form>
+    </div>  
+</div>
