@@ -11,10 +11,10 @@ const app = express();
 //     res.sendFile('index.html', {root: '/CotizadorSusanaBlanco'}),
 // );
 
-app.use(express.static(__dirname + '/dist/CotizadorSusanaBlanco'));
+app.use(express.static(__dirname + '/dist/cotizador-susana-blanco'));
 
 app.get('/*', function(req,res) {
-    res.sendFile(path.join(__dirname + '/dist/CotizadorSusanaBlanco/index.html'));
+    res.sendFile(path.join(__dirname + '/dist/cotizador-susana-blanco/index.html'));
 });
 
 // Start the app by listening on the default Heroku port
