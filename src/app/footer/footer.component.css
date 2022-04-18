@@ -110,6 +110,12 @@ ul{
     height: 40px;
 }
 
+.footerDiv{
+    background: #372049;
+    height: 80px;
+    margin-top: 20px;
+}
+
 
 .cards_wrap .card_top{
     width: 100%;
