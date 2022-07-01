@@ -133,10 +133,6 @@ export class VehicleInfoComponent implements OnInit {
   }
 
   getCarModels() {
-
-    // this._vehiclesService.getBrandsList().subscribe((data: Brand[])=>{
-    //   this.brandsList = data;
-    // })
     var brandid = this.getFormValue("codigoMarca");
     var yearLength = (this.getFormValue("anioFabricacion") == null) ? 0 : this.getFormValue("anioFabricacion").toString().length;
     if (brandid != "Seleccione" && yearLength == 4) {
@@ -212,7 +208,20 @@ export class VehicleInfoComponent implements OnInit {
       this.quotation.accesoriosVehiculo = this.selectedAccessories;
       this.quotation.isVehicleInfoReady = true;
 
-      this.email.email = "susanaiblanco@gmail.com";
+      
+      this.mailSender();
+      this._vehiclesService.setQuotation(this.quotation);
+      
+
+      this._router.navigate(['/PersonalInfo'], { skipLocationChange: true });
+    }
+    else {
+      this.isFormCompleted = false
+    }
+  }
+
+  mailSender(){
+    this.email.email = "susanaiblanco@gmail.com";
       this.email.subject = "Nueva Inicio de Cotizacion";
       this.email.message = " El usuario "
         + this.quotation.userEmail
@@ -223,16 +232,8 @@ export class VehicleInfoComponent implements OnInit {
         + " "
         + this.quotation.anioFabricacion;
 
-      this._vehiclesService.setQuotation(this.quotation);
-      //this._mailingService.mailSender(this.email);
-
-      this._router.navigate(['/PersonalInfo'], { skipLocationChange: true });
-    }
-    else {
-      this.isFormCompleted = false
-    }
+        this._mailingService.mailSender(this.email);
   }
-
 
   setPrice() {
     if (this.quotation.es0Km) {

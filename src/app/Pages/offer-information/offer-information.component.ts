@@ -63,13 +63,13 @@ callSetTimeOut(){
     this.email.subject = "Solicitud Alta de Poliza";
     this.email.message = 
     `El usuario ${this.quotation.nombresDelAsegurado} ${this.quotation.apellidosDelAsegurado}
-  Email: ${this.quotation.userEmail}
-  Telefono: ${this.quotation.telefonoDelAsegurado}
-  Ubicacion del Riesgo: ${this.quotation.descripcionLocalidad}, ${this.quotation.descripcionProvincia}, Codigo Postal: ${this.quotation.codigoPostal}
-  Solicito el Alta de Poliza ${offer.descripcionDeProducto} por el vehiculo ${this.quotation.nombreMarca} - ${this.quotation.nombreMarcaModelo}, ${this.quotation.anioFabricacion} ${es0Km}
-  Con el Valor de: ${offer.prima.importePrima}`
+    Email: ${this.quotation.userEmail}
+    Telefono: ${this.quotation.telefonoDelAsegurado}
+    Ubicacion del Riesgo: ${this.quotation.descripcionLocalidad}, ${this.quotation.descripcionProvincia}, Codigo Postal: ${this.quotation.codigoPostal}
+    Solicito el Alta de Poliza ${offer.descripcionDeProducto} por el vehiculo ${this.quotation.nombreMarca} - ${this.quotation.nombreMarcaModelo}, ${this.quotation.anioFabricacion} ${es0Km}
+    Con el Valor de: ${offer.prima.importePrima}`
 
-    //this._mailingService.mailSender(this.email);
+    this._mailingService.mailSender(this.email);
     this._vehiclesService.setSelectedOffer(offer);
     this._router.navigate(['Thanks'], { skipLocationChange: true });
   }

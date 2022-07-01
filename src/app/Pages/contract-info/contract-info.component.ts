@@ -170,27 +170,6 @@ deleteAditional(selected: Aditional){
 }
 
 handleContinue(){
-    let es0Km = (this.quotation.es0Km) ? "0KM" : "";
-    this.email.email = "susanaiblanco@gmail.com";
-    this.email.subject = "Nueva Cotizacion";
-    this.email.message = " El usuario " 
-                        + this.quotation.nombresDelAsegurado 
-                        + " "
-                        + this.quotation.apellidosDelAsegurado 
-                        + ", Email: "
-                        + this.quotation.userEmail 
-                        + " Cotizo el Vehiculo: " 
-                        + this.quotation.nombreMarca 
-                        + " - " 
-                        + this.quotation.nombreMarcaModelo
-                        + " "
-                        + this.quotation.anioFabricacion
-                        + " Con los Siguientes Valores de Polizas: <br>"
-                        + this.quotation.anioFabricacion
-                        + " "
-                        + es0Km;
-
-    //this._mailingService.mailSender(this.email);
 
   if(this.checkForm()){
     this.isQuoting = true;
@@ -219,6 +198,7 @@ handleContinue(){
       console.log(this.quotationReady);
     });
 
+    this.mailSender();
     this._vehiclesService.setOptionQuotation(this.optionQuotation);
     this.callSetTimeOut();
     
@@ -226,6 +206,31 @@ handleContinue(){
   else{
     this.isFormCompleted = false;
   }
+}
+
+mailSender(){
+
+  let es0Km = (this.quotation.es0Km) ? "0KM" : "";
+  this.email.email = "susanaiblanco@gmail.com";
+  this.email.subject = "Nueva Cotizacion";
+  this.email.message = " El usuario " 
+                      + this.quotation.nombresDelAsegurado 
+                      + " "
+                      + this.quotation.apellidosDelAsegurado 
+                      + ", Email: "
+                      + this.quotation.userEmail 
+                      + " Cotizo el Vehiculo: " 
+                      + this.quotation.nombreMarca 
+                      + " - " 
+                      + this.quotation.nombreMarcaModelo
+                      + " "
+                      + this.quotation.anioFabricacion
+                      + " Con los Siguientes Valores de Polizas: <br>"
+                      + this.quotation.anioFabricacion
+                      + " "
+                      + es0Km;
+
+  this._mailingService.mailSender(this.email);
 }
 
 callSetTimeOut(){
