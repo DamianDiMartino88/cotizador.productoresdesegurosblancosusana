@@ -167,17 +167,17 @@
   </tr>
   <tr>
     <td></td>
-    <td>VALOR COVERTURA</td>
-    <td>VALOR COVERTURA</td>
-    <td>VALOR COVERTURA</td>
-    <td>VALOR COVERTURA</td>
+    <td>$ {{this.tercerosBasico.prima.importePrima}}</td>
+    <td>$ {{this.tercerosPremium.prima.importePrima}}</td>
+    <td>$ {{this.todoRiesgo.prima.importePrima}}</td>
+    <td>$ {{this.todoRiesgoVip.prima.importePrima}}</td>
   </tr>
   <tr>
     <td></td>
-    <td><button class="btn btn-success" style="margin: 5%;" (click)="handleAcceptance()">Solicitar</button></td>
-    <td><button class="btn btn-success" style="margin: 5%;" (click)="handleAcceptance()">Solicitar</button></td>
-    <td><button class="btn btn-success" style="margin: 5%;" (click)="handleAcceptance()">Solicitar</button></td>
-    <td><button class="btn btn-success" style="margin: 5%;" (click)="handleAcceptance()">Solicitar</button></td>
+    <td><button class="btn btn-success" style="margin: 5%;" (click)="handleAcceptance(this.tercerosBasico)">Solicitar</button></td>
+    <td><button class="btn btn-success" style="margin: 5%;" (click)="handleAcceptance(this.tercerosPremium)">Solicitar</button></td>
+    <td><button class="btn btn-success" style="margin: 5%;" (click)="handleAcceptance(this.todoRiesgo)">Solicitar</button></td>
+    <td><button class="btn btn-success" style="margin: 5%;" (click)="handleAcceptance(this.todoRiesgoVip)">Solicitar</button></td>
   </tr>
 </table>
 </div>

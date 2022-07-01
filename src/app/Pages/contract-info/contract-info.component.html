@@ -42,8 +42,7 @@
                         name="medioDePago"
                         required>
                             <option selected aria-label="medioDePago">Seleccione</option>
-                            <option value="E">Debito por CBU</option>
-                            <option value="T">Tarjeta de Crédito</option>
+                            <option *ngFor="let method of paymentMethods" value="{{method.key}}">{{method.value}}</option>
                           </select>
                     </div>
                     <div style="color: rgb(255, 213, 213); text-align: center;" *ngIf="!isPaymentCompleted">
@@ -161,10 +160,12 @@
             <button type="button" class="btn btn-danger" (click)="handleBack()">Volver</button>
         </div>
         <div class="col-3" style="padding: 5%;">
-            <button type="button" class="btn btn-success" (click)="handleContinue()">Cotizar</button>
+            <button type="button" class="btn btn-success" *ngIf="!isQuoting" (click)="handleContinue()">Cotizar</button>
+            <button type="button" class="btn btn-success" *ngIf="isQuoting">Cotizando..</button>
             <div class="alert alert-danger" *ngIf="!isFormCompleted" style=" text-align: center; margin-top: 5%;">
                 Complete Todos los Campos
             </div> 
+            
         </div>
     </div>
     </form>

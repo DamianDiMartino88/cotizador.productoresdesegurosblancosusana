@@ -39,6 +39,7 @@
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">Año</span>
                                 <input type="number" aria-label="First name" class="form-control"
+                                (change)="getCarModels()"
                                 placeholder="Ej. 2015"
                                 id="anioFabricacion"
                                 formControlName="anioFabricacion"
@@ -72,13 +73,13 @@
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1">Modelo</span>
                         <select class="form-select" aria-label="Default select example"
-                        value="Seleccione"
+                        value="Seleccione Marca y Año"
                         id="codigoMarcaModelo"
                         formControlName="codigoMarcaModelo"
                         name="codigoMarcaModelo"
                         
                         required>
-                            <option selected aria-label="codigoMarcaModelo" >Seleccione</option>
+                            <option selected aria-label="codigoMarcaModelo" >Seleccione Marca y Año</option>
                             <option *ngFor="let model of infoautoModelsList" value="{{model.codia}}">{{model.description}}</option> 
                         </select>
                     </div>
@@ -112,7 +113,7 @@
                         (change)=addAccessory()
                         >
                             <option selected aria-label="userGenre" >Seleccione</option>
-                            <option *ngFor="let accessory of accessoriesList" value="{{accessory.AccessoryID}}" >{{accessory.AccessoryDescription}}</option> 
+                            <option *ngFor="let accessory of accessoriesList" value="{{accessory.codigoAccesorio}}" >{{accessory.descripcionAccesorio}}</option> 
                         </select>
                     </div>
                     <div class="alert alert-danger d-flex align-items-center" role="alert"  style="height: 15px;"  *ngIf="false">
@@ -167,7 +168,7 @@
                 <div class="col-2 col-sm-2">
                     
                     <div class="row" *ngFor="let selected of selectedAccessories" style="padding-right: 3px ; padding-top: 5px;">     
-                            <span class="badge rounded-pill bg-secondary" (click)="deleteAccessory(selected)">{{selected.AccessoryDescription}}</span>                          
+                            <span class="badge rounded-pill bg-secondary" (click)="deleteAccessory(selected)">{{selected.descripcionAccesorio}}</span>                          
                     </div>
 
                 </div>

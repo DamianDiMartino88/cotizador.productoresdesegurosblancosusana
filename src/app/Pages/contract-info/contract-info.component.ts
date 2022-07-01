@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -5,24 +6,29 @@ import { Aditional } from 'src/app/Models/Aditional';
 import { Email } from 'src/app/Models/Email';
 import { OptionQuotation } from 'src/app/Models/OptionQuotation';
 import { Quotation } from 'src/app/Models/Quotation';
+import { QuotationResponse } from 'src/app/Models/QuotationResponse';
 import { MailingService } from 'src/app/Services/mailing.service';
 import { VehiclesService } from 'src/app/Services/vehicles.service';
 
 @Component({
   selector: 'app-contract-info',
   templateUrl: './contract-info.component.html',
-  styleUrls: ['./contract-info.component.css']
+  styleUrls: ['./contract-info.component.css'],
+  providers: [DatePipe]
+
 })
 export class ContractInfoComponent implements OnInit {
 
   constructor(private _vehiclesService: VehiclesService,              
     private _mailingService: MailingService,              
     private _formBuilder: FormBuilder,
-    private _router: Router) {
+    private _router: Router,
+    private _datePipe: DatePipe) {
       
   }
 
 paysQuantity: number[] = [];
+paymentMethods: PayMethod[] = [];
 ContractForm: FormGroup = new FormGroup({});
 aditionalList: Aditional[] = []
 selectedAditionals: Aditional[] = []
@@ -34,11 +40,13 @@ isPaymentCompleted: boolean = true;
 isQuotesCompleted: boolean = true;
 isIVAConditionCompleted: boolean = true;
 isIIBBConditionCompleted: boolean = true;
-optionQuotation: OptionQuotation = new OptionQuotation();
+quotationReady: boolean = false;
+isQuoting: boolean = false;
+optionQuotation: QuotationResponse = new QuotationResponse();
 
 
 ngOnInit(): void {
-
+  this.isQuoting = false;
   this.quotation = this._vehiclesService.getQuotation();
   if(this.checkInfoCompletion()){
     this.formGenerator();
@@ -114,15 +122,18 @@ getPaysQuantity(){
   // })
   var pays = this.getFormValue("tipoDePoliza");
     this.paysQuantity = [];
+    this.paymentMethods = [];
     if(pays!="Seleccione"){
       switch (pays){
         case "M":
           this.paysQuantity.push(1)
+          this.paymentMethods.push({key:"T",value:"Tarjeta de Credito"});
           this.ContractForm.get("cantidadDeCuotas")!.enable();
           break;
         
         case "S":
           this.paysQuantity.push(1,2,3,4,5,6)
+          this.paymentMethods.push({key:"T",value:"Tarjeta de Credito"},{key:"E",value:"Debito por CBU"});
           this.ContractForm.get("cantidadDeCuotas")!.enable();
           break;
 
@@ -179,29 +190,52 @@ handleContinue(){
                         + " "
                         + es0Km;
 
-    this._mailingService.mailSender(this.email);
+    //this._mailingService.mailSender(this.email);
 
   if(this.checkForm()){
+    this.isQuoting = true;
     this.isFormCompleted = true
     this.quotation.tipoDePoliza = this.getFormValue("tipoDePoliza");
     this.quotation.medioDePago = this.getFormValue("medioDePago");
     this.quotation.cantidadDeCuotas = this.getFormValue("cantidadDeCuotas");
     this.quotation.codigoCondicionIVA = this.getFormValue("codigoCondicionIVA");
     //this.quotation.codigoCondicionIIBB = this.getFormValue("codigoCondicionIIBB");
+    let date2 = new Date();
+    this.quotation.fechaDesde = this._datePipe.transform(date2,'yyyy-MM-ddThh:mm:ss.SSSZZZZZ')
+    console.log(date2)
+    var months = (this.getFormValue("tipoDePoliza") == "M")? 1 : 6;
+    let date3 = new Date(date2.setMonth(date2.getMonth() +months));
+    console.log(date3)
+    this.quotation.fechaHasta = this._datePipe.transform(date3,'yyyy-MM-ddThh:mm:ss.SSSZZZZZ');
+    console.log(this._datePipe.transform(date3,'yyyy-MM-ddThh:mm:ss.SSSZZZZZ'))
     
-    this._vehiclesService.setQuotation(this.quotation);
 
-    this._vehiclesService.sendQuotationRequest().subscribe((data: OptionQuotation) =>{
+    this._vehiclesService.sendQuotationRequest().subscribe((data: QuotationResponse) =>{
       this.optionQuotation = data;
+      this.quotation.quotationResponse = this.optionQuotation;
+      this._vehiclesService.setQuotation(this.quotation);
+      this.quotationReady = true;
+      console.log(this.quotation)
+      console.log(this.quotationReady);
     });
 
     this._vehiclesService.setOptionQuotation(this.optionQuotation);
-
-    this._router.navigate(['/OfferInformation'], { skipLocationChange: true });
+    this.callSetTimeOut();
+    
   }
   else{
-    this.isFormCompleted = false
+    this.isFormCompleted = false;
   }
+}
+
+callSetTimeOut(){
+  var myInterval = setInterval(() =>{
+    console.log("HOLIS INTERVAL")
+    if(this.quotationReady){
+      this._router.navigate(['/OfferInformation'], { skipLocationChange: true });
+      clearInterval(myInterval);
+    }
+  },3000)
 }
 
 checkForm(){
@@ -252,4 +286,9 @@ handleBack(){
   //   return this.ContractForm.get("codigoCondicionIIBB");
   // }
 
+}
+
+export class PayMethod{
+  key=""
+  value=""
 }

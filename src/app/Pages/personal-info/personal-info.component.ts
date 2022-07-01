@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -10,13 +11,15 @@ import { VehiclesService } from 'src/app/Services/vehicles.service';
 @Component({
   selector: 'app-personal-info',
   templateUrl: './personal-info.component.html',
-  styleUrls: ['./personal-info.component.css']
+  styleUrls: ['./personal-info.component.css'],
+  providers: [DatePipe]
 })
 export class PersonalInfoComponent implements OnInit {
 
   constructor(private _vehiclesService: VehiclesService,              
     private _formBuilder: FormBuilder,
-    private _router: Router) {
+    private _router: Router,
+    private _datePipe: DatePipe) {
 
 }
 
@@ -93,6 +96,7 @@ Validators.required
 })
 }
 
+
 getBrands(){
 // this._vehiclesService.getBrandsList().subscribe((data: Brand[])=>{
 //   this.brandsList = data;
@@ -112,23 +116,23 @@ this.carModelsList = this._vehiclesService.getMockCarModelsList(this.getFormValu
 }
 
 getAccessories(){
-this.accessoriesList = this._vehiclesService.getCarAccessories();
+//this.accessoriesList = this._vehiclesService.getCarAccessories();
 }
 
 addAccessory(){
 var newAccessory = this.getFormValue("carAccessory");
 if(newAccessory !="Seleccione"){
-var array1 = [this.selectedAccessories.find(accessory => accessory.AccessoryID == newAccessory)]
+var array1 = [this.selectedAccessories.find(accessory => accessory.codigoAccesorio == newAccessory)]
 if(array1[0] == undefined){
-this.selectedAccessories.push(this.accessoriesList.filter(accessory => accessory.AccessoryID == newAccessory)[0])
+this.selectedAccessories.push(this.accessoriesList.filter(accessory => accessory.codigoAccesorio == newAccessory)[0])
 }
 this.UserForm.controls["carAccessory"].setValue("Seleccione")
 }
 }
 
 deleteAccessory(selected: Accessory){
-console.log("Deleting "+selected.AccessoryID)
-this.selectedAccessories=this.selectedAccessories.filter(accessory => accessory.AccessoryID != selected.AccessoryID)
+console.log("Deleting "+selected.codigoAccesorio)
+this.selectedAccessories=this.selectedAccessories.filter(accessory => accessory.codigoAccesorio != selected.codigoAccesorio)
 }
 
 handleContinue(){
@@ -138,9 +142,16 @@ this.isFormCompleted = true
 this.quotation.nombresDelAsegurado = this.getFormValue("nombresDelAsegurado");
 this.quotation.apellidosDelAsegurado = this.getFormValue("apellidosDelAsegurado");
 //this.quotation.numeroDocumentoTomador = this.getFormValue("numeroDocumentoTomador");
-this.quotation.fechaNacimientoAsegurado = this.getFormValue("fechaNacimientoAsegurado");
+var fechaNacimientoAsegurado: string = this.getFormValue("fechaNacimientoAsegurado");
+//this.quotation.fechaNacimientoAsegurado = this.getFormValue("fechaNacimientoAsegurado");
 this.quotation.sexoDelAsegurado = this.getFormValue("sexoDelAsegurado");
+let date = this._datePipe.transform( new Date(fechaNacimientoAsegurado),'yyyy-MM-ddThh:mm:ss.SSSZZZZZ')
+this.quotation.fechaNacimientoAsegurado = date?.toString();
+console.log("fechaNacimientoAsegurado")
+console.log(this.quotation.fechaNacimientoAsegurado)
 
+console.log(this._datePipe.transform(new Date(),'yyyy-MM-ddThh:mm:ss.SSSZZZZZ'))
+console.log(this.quotation)
 this.quotation.isPersonalInfoReady = true;
 this._vehiclesService.setQuotation(this.quotation);
 

@@ -1,12 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Accessory } from 'src/app/Models/Accessory';
+import { AccessoryResponse } from 'src/app/Models/AccessoryResponse';
 import { Aditional } from 'src/app/Models/Aditional';
 import { City } from 'src/app/Models/City';
 import { CityResponse } from 'src/app/Models/CityResponse';
+import { Coverage } from 'src/app/Models/Coverage';
+import { CoverageResponse } from 'src/app/Models/CoverageResponse';
 import { Province } from 'src/app/Models/Province';
 import { ProvinceResponse } from 'src/app/Models/ProvinceResponse';
 import { Quotation } from 'src/app/Models/Quotation';
+import { Use } from 'src/app/Models/Use';
+import { UseResponse } from 'src/app/Models/UseResponse';
 import { VehiclesService } from 'src/app/Services/vehicles.service';
 
 @Component({
@@ -27,6 +33,9 @@ AdressForm: FormGroup = new FormGroup({})
 aditionals: Aditional[] = []
 provincesList: Province[] = []
 citiesList: City[] = []
+usesList: Use[] = []
+coveragesList: Coverage[] = []
+accesoriesList: Accessory[] = []
 quotation: Quotation = new Quotation();
 modelListReady:boolean = false;
 isFormCompleted: boolean = true;
@@ -43,6 +52,7 @@ this.quotation = this._vehiclesService.getQuotation();
 if(this.checkInfoCompletion()){
 this.formGenerator();
 this.getProvinces();
+
 }
 
 }
@@ -106,9 +116,30 @@ getProvinces(){
 this.AdressForm.get("codigoProvincia")!.disable();
 this.AdressForm.get("codigoCiudad")!.disable();
 this._vehiclesService.getProvinces().subscribe((response: ProvinceResponse) =>{
-this.provincesList = response.provinciaResponseDtoList;
-this.AdressForm.get("codigoProvincia")!.enable();
-})
+  this.provincesList = response.provinciaResponseDtoList;
+  this.AdressForm.get("codigoProvincia")!.enable();
+  })
+
+  this._vehiclesService.getCarAccessories().subscribe((response: AccessoryResponse) =>{
+    this.accesoriesList = response.accesorioResponseDtoList;
+    console.log(response)
+    })
+
+      this._vehiclesService.getUses().subscribe((response: UseResponse) =>{
+        this.usesList = response.usoVehiculoResponseList;
+        console.log(response)
+        })
+
+        this._vehiclesService.getCoverages().subscribe((response: CoverageResponse) =>{
+          this.coveragesList = response.coberturaResponseDtoList;
+
+          })
+  console.log("Accesories")
+  console.log(this.accesoriesList)
+  console.log("Uses")
+  console.log(this.usesList)
+  console.log("Coverages")
+  console.log(this.coveragesList)
 }
 getCities(){
 var codigoProvincia = this.getFormValue("codigoProvincia");
@@ -128,18 +159,27 @@ this.AdressForm.get("codigoCiudad")!.disable();
 }
 
 handleContinue(){
+console.log("HANDLE CONTINUE");
 if(this.checkForm()){
+  console.log("IF");
 this.isFormCompleted = true
 this.quotation.codigoProvincia = this.getFormValue("codigoProvincia");
+console.log(this.getFormValue("codigoProvincia"));
 this.quotation.codigoLocalidad = this.getFormValue("codigoCiudad");
+console.log(this.getFormValue("codigoCiudad"));
 this.quotation.telefonoDelAsegurado = this.getFormValue("celularCodArea") + this.getFormValue("celularNumero");
+console.log(this.getFormValue("celularCodArea"));
+console.log(this.getFormValue("celularNumero"));
 this.quotation.codigoPostal = this.getFormValue("codigoPostal");
+console.log(this.getFormValue("codigoPostal"));
 this.quotation.isAddressInfoReady = true;
 
 this._vehiclesService.setQuotation(this.quotation);
+console.log(this.quotation);
 this._router.navigate(['/ContractInfo'], { skipLocationChange: true });
 }
 else{
+  console.log("ELSE");
 this.isFormCompleted = false
 }
 }
@@ -161,7 +201,7 @@ this.isCelNumberCompleted = this.getFormValue("celularNumero") !== ""
 //this.isAdressNumberCompleted = this.getFormValue("direccionNumero") !== ""
 this.isPostalCodeCompleted = this.getFormValue("codigoPostal") !== ""
 
-this.quotation.descripcionLocalidad = this.citiesList.filter((result) => result.codigoProvincia == this.getFormValue("codigoLocalidad"))[0].descripcionLocalidad;
+this.quotation.descripcionLocalidad = this.citiesList.filter((result) => result.codigoLocalidad == this.getFormValue("codigoCiudad"))[0].descripcionLocalidad;
 
 return  this.isProvinceCodeCompleted &&
 this.isCityCodeCompleted &&

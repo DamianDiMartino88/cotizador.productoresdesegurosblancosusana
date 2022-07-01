@@ -1,6 +1,4 @@
-export class Accessory{
+export class AccessoryRequest{
     public codigoAccesorio: number =0;
-    public descripcionAccesorio: string ="";
     public sumaAccesorio: number =0;
-
 }

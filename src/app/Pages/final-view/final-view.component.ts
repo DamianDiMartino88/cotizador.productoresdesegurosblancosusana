@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
+import { OptionQuotation } from 'src/app/Models/OptionQuotation';
 import { Quotation } from 'src/app/Models/Quotation';
 import { VehiclesService } from 'src/app/Services/vehicles.service';
 
@@ -12,12 +13,15 @@ import { VehiclesService } from 'src/app/Services/vehicles.service';
 export class FinalViewComponent implements OnInit {
 
   quotation: Quotation = new Quotation();
+  selectedOffer: OptionQuotation = new OptionQuotation();
 
   constructor(private _vehiclesService: VehiclesService,              
     private _formBuilder: FormBuilder,
     private _router: Router) { }
 
   ngOnInit(): void {
+    this.selectedOffer = this._vehiclesService.getSelectedOffern();
+    
   }
 
   checkInfoCompletion(): boolean{

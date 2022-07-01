@@ -1,5 +1,7 @@
 import { Accessory } from "./Accessory";
+import { AccessoryRequest } from "./AccessoryRequest";
 import { Aditional } from "./Aditional";
+import { QuotationResponse } from "./QuotationResponse";
 
 export class Quotation{
     codigoDeProductor: string = "";
@@ -14,16 +16,19 @@ export class Quotation{
     tieneAlarma: boolean = false;
     codigoTipoAlarma: string = "";
     accesoriosVehiculo : Accessory[] = [];
+    accesoriosVehiculoRequest : AccessoryRequest[] = [];
     tipoDePoliza: string = "";
     medioDePago: string = "";
     cantidadDeCuotas: number = 1;
     codigoCondicionIVA: string = "";
-    codigoCondicionIIBB: string = "";
+    codigoCondicionIIBB: string = "2";
     nombresDelAsegurado: string ="";
     apellidosDelAsegurado: string ="";
-    tipoDocumentoTomador: string = "";
-    numeroDocumentoTomador: string = "";
-    fechaNacimientoAsegurado: string = "";
+    tipoDocumentoTomador: string = "D";
+    numeroDocumentoTomador: string = "12345678";
+    fechaDesde: string|null = "";
+    fechaHasta: string|null = "";
+    fechaNacimientoAsegurado: string|undefined = "";
     sexoDelAsegurado:string = "";
     adicionalesVehiculo: Aditional[] = [];
     direccionDelAsegurado: string = "";
@@ -35,6 +40,7 @@ export class Quotation{
     codigoZonaDeRiesgo: string = "";
     telefonoDelAsegurado: string = "";
     userEmail: string = "";
+    quotationResponse: QuotationResponse = new QuotationResponse();
     isVehicleInfoReady: boolean = true;
     isAddressInfoReady: boolean = true;
     isPersonalInfoReady: boolean = true;
